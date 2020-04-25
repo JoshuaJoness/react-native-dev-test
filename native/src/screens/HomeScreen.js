@@ -9,9 +9,11 @@ const HomeScreen = () => {
 
 
   useEffect(() => {
+    // Here you must enter your local IP address
     axios.get('http://192.168.2.241:4000/posts').then(res => {
       console.log(res.data);
-      setPosts(res.data)
+      sortedDates = res.data.sort((a,b) => (a.publishedAt > b.publishedAt) ? -1 : ((a.publishedAt < b.publishedAt) ? 1 : 0) )
+      setPosts(sortedDates)
     }).catch(err => {
         console.log(err);
       })
