@@ -1,20 +1,20 @@
-import React from 'react'
-import { createAppContainer } from 'react-navigation'
-import { createStackNavigator } from 'react-navigation-stack'
-import HomeScreen from './screens/HomeScreen.js'
-import PostScreen from './screens/PostScreen.js'
+import React from 'react';
+import { createAppContainer } from 'react-navigation';
+import { createStackNavigator } from 'react-navigation-stack';
+import HomeScreen from './screens/HomeScreen.js';
+import PostScreen from './screens/PostScreen.js';
 
 const navigator = createStackNavigator(
   {
     Home: HomeScreen,
-    Post: PostScreen
+    Post: PostScreen,
   },
   {
     initialRouteName: 'Home',
     defaultNavigationOptions: {
-      title: 'Beautiful Blog App'
-    }
+      title: 'Beautiful Blog App',
+    },
   }
-)
+);
 
-export const App = createAppContainer(navigator)
+export const App = createAppContainer(navigator);
