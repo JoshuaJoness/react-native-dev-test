@@ -1,5 +1,6 @@
-import React, {Component} from 'react';
-import { Text, View, ScrollView ,TouchableNativeFeedback, Modal,Image} from 'react-native';
+import React from 'react';
+import { Text, View, ScrollView ,TouchableOpacity, Modal, Image, StyleSheet } from 'react-native';
+import { AntDesign } from '@expo/vector-icons'
 
 const data = [
   { name: 'Gort', year: 1951,img:'https://upload.wikimedia.org/wikipedia/en/0/03/Gort_Firing.jpg' },
@@ -8,8 +9,8 @@ const data = [
   {name: 'Bishop', year: 1986,img:'https://upload.wikimedia.org/wikipedia/en/4/49/Bishop_%28Alien%29.png'},
   {name: 'Johnny 5',year: 1986,img: 'https://upload.wikimedia.org/wikipedia/commons/thumb/e/e8/Johnny5_03.jpg/433px-Johnny5_03.jpg'},
   { name: 'Data', year: 1987,img:'https://upload.wikimedia.org/wikipedia/en/0/09/DataTNG.jpg' },
-  { namee: 'Bender', year: 1999 , img: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png'},
-  { name: 'Marvin', year: 2005 ,img: 'hhttps://upload.wikimedia.org/wikipedia/en/c/cb/Marvin_%28HHGG%29.jpg'},
+  { name: 'Bender', year: 1999 , img: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png'},
+  { name: 'Marvin', year: 2005 ,img: 'https://upload.wikimedia.org/wikipedia/en/c/cb/Marvin_%28HHGG%29.jpg'},
   { name: 'Astro Boy', year: 2009, img: 'https://upload.wikimedia.org/wikipedia/en/f/f7/AstroBoy%28CGI%29.jpg' },
   { name: 'TARS', year: 2014, img: 'https://compote.slate.com/images/17c75261-6622-4399-a0ae-6316eeff6319.jpg' },
   { name: 'CHAPPiE', year: 2015, img: 'https://upload.wikimedia.org/wikipedia/en/7/71/Chappie_poster.jpg' },
@@ -38,8 +39,10 @@ export default class App extends React.Component {
     let theRobot = this.state.robot;
 
     data.forEach((robot, index) => {
-      robots[index] = <View style={{ flexDirection: 'column', padding: 20, borderBottomWidth:1, borderBottomColor: '#ddd'}}>
-        <TouchableNativeFeedback onPress={() => {this.clickRobot(robot);}}><Text style={{fontSize: 18, paddingBottom: 5}}>{robot.name}</Text></TouchableNativeFeedback>
+      robots[index] = <View key={index} style={styles.robotListing}>
+        <TouchableOpacity onPress={() => {this.clickRobot(robot);}}>
+          <Text style={styles.robotTitleButton}>{robot.name}</Text>
+        </TouchableOpacity>
         <Text>{robot.year}</Text>
       </View>
     })
@@ -52,24 +55,109 @@ export default class App extends React.Component {
           transparent={true}
           visible={theRobot != null}
           onRequestClose={() => {this.setState({robot: null})
-        }}
-      >
-        {theRobot &&<View style={{ flex: 1, backgroundColor: '#fff', alignItems: 'stretch', justifyContent: 'flex-start', padding: 40}}>
-          <Text style={{fontSize: 36, paddingBottom: 5}}>{theRobot.name}</Text>
-          <Image source={{uri: theRobot.img, with: 640, height: 480}} />
-      </View>}</Modal>
-      <View style={{ flexDirection: 'column'}}>
-        <View style={{ flexGrow: 0, flexShrink: 0, height: 24, backgroundColor: '#a85'}}></View>
-      <ScrollView style={{flexGrow: 1}}>
-      <View style={{ flex: 1, backgroundColor: '#fff', alignItems: 'stretch', justifyContent: 'flex-start'}}>
-        {robots}
-      </View>
-      </ScrollView>
-      </View>
+          }}
+        >
+          <ScrollView>
+            {
+            theRobot &&
+            <View style={styles.robotCardContainer}>
+              <Text style={styles.robotCardTitle}>{theRobot.name}</Text>
+              <Image
+                source={{uri: theRobot.img}}
+                style={styles.robotCardImage}
+              />
+              <TouchableOpacity
+                onPress={() => this.setState({robot: null})}
+                style={styles.backButton}
+              >
+                <AntDesign
+                  name='back'
+                  size={30}
+                  color={'salmon'}
+                />
+                <Text style={styles.backButtonText}>Go Back</Text>
+              </TouchableOpacity>
+            </View>
+            }
+          </ScrollView>
+        </Modal>
+        <View style={styles.listContainer}>
+          <View
+            style={ Platform.OS == 'android' ? styles.androidNavStyles : styles.iosNavStyles }>
+          </View>
+          <ScrollView style={styles.scrollViewContainer}>
+            <View style={styles.viewContainer}>
+              {robots}
+            </View>
+          </ScrollView>
+        </View>
       </View>
     );
-
-
-    return
   }
 }
+
+const styles = StyleSheet.create({
+  robotListing: {
+    flexDirection: 'column',
+    padding: 20,
+    borderBottomWidth:1,
+    borderBottomColor: '#ddd'
+  },
+  robotTitleButton: {
+    fontSize: 18,
+    paddingBottom: 5
+  },
+  robotCardContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
+    padding: 40,
+    height:900
+  },
+  robotCardTitle: {
+    fontSize: 36,
+    paddingBottom: 5
+  },
+  robotCardImage: {
+    width: 340,
+    height: 480,
+    alignSelf:'center'
+  },
+  backButton: {
+    display:'flex',
+    flexDirection:'row',
+    alignItems:'center',
+    alignSelf:'center',
+    paddingTop:30
+  },
+  backButtonText: {
+    fontSize:18,
+    marginLeft:15
+  },
+  listContainer: {
+    flexDirection: 'column'
+  },
+  androidNavStyles: {
+    flexGrow: 0,
+    flexShrink: 0,
+    height: 24,
+    backgroundColor: '#a85'
+  },
+  iosNavStyles: {
+    flexGrow: 0,
+    flexShrink: 0,
+    height: 50,
+    backgroundColor: '#a85'
+  },
+  scrollViewContainer: {
+    flexGrow: 1
+  },
+  viewContainer: {
+    flex: 1,
+    backgroundColor: '#fff',
+    alignItems: 'stretch',
+    justifyContent: 'flex-start',
+    paddingBottom:120
+  }
+})

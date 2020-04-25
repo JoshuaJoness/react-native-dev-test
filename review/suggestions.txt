@@ -1,0 +1,147 @@
+
+
+
+PLEASE NOTE:
+1) I realize that this may be hard to read, thus, I've replaced the App.js file with my reformatted changes.
+2) I've renamed the original App.js to AppOriginal.js
+3) Overall styling of the app could be improved, examples of this can be seen in the first project
+
+
+
+
+
+
+
+App.js:file
+  "Using StyleSheet and adding proper indentations will make code easier to read"
+
+App.js:line1
+  "Unnecessary import of 'component' "
+  import React from 'react';
+
+App.js:line2
+  import { Text, View, ScrollView ,TouchableNativeFeedback, Modal,Image} from 'react-native';
+  to
+  import { Text, View, ScrollView ,TouchableNativeFeedback, Modal, Image } from 'react-native';
+  "spacing around Image import"
+
+App.js:line11
+  "Remove extra 'e' in name property"
+    { namee: 'Bender', year: 1999 , img: 'https://upload.wikimedia.org/wikipedia/en/a/a6/Bender_Rodriguez.png'},
+
+App.js:line12
+  "Remove extra 'h' in URL"
+  { name: 'Marvin', year: 2005 ,img: 'https://upload.wikimedia.org/wikipedia/en/c/cb/Marvin_%28HHGG%29.jpg'},
+
+App.js: line41
+  "Add a key property to the View to stop React from complaining"
+  robots[index] = <View key={index}...
+
+App.js: line42
+  "TouchableNativeFeedback (change to) TouchableOpacity"
+  "TouchableNativeFeedback is not supported on iOS, use TouchableOpacity instead"
+  "also, fix indentations to make easier to read"
+
+  robots[index] = <View key={index} style={styles.robotListing}>
+    <TouchableOpacity onPress={() => {this.clickRobot(robot);}}>
+      <Text style={styles.robotTitleButton}>{robot.name}</Text>
+    </TouchableOpacity>
+    <Text>{robot.year}</Text>
+  </View>
+
+App.js: line 2
+  import { Text, View, ScrollView ,TouchableOpacity, Modal,Image} from 'react-native';
+
+
+
+App.js: line50-60
+  "reformat and add some spacing to make code easier to read"
+  <Modal
+    animationType="slide"
+    transparent={true}
+    visible={theRobot != null}
+    onRequestClose={() => {this.setState({robot: null})
+    }}
+  >
+    {
+    theRobot &&
+    <View style={{ flex: 1, backgroundColor: '#fff', alignItems: 'stretch', justifyContent: 'flex-start', padding: 40}}>
+      <Text style={{fontSize: 36, paddingBottom: 5}}>{theRobot.name}</Text>
+      <Image source={{uri: theRobot.img, with: 640, height: 480}} />
+    </View>
+    }
+  </Modal>
+
+App.js: line59
+  "style is in wrong place, and 'width' is misspelled"
+  "reduce width to '340', it is too wide"
+  "add alignSelf:'center' style so that it does not cut off on Android"
+  <Image source={{uri: theRobot.img}} style={{width: 340, height: 480, alignSelf:'center'}} />
+
+
+App.js: line59 (also need to import Icon at top)
+  "Add TouchableOpacity button to navigate back"
+  <View style={{ flex: 1, backgroundColor: '#fff', alignItems: 'stretch', justifyContent: 'flex-start', padding: 40}}>
+    <Text style={{fontSize: 36, paddingBottom: 5}}>{theRobot.name}</Text>
+    <Image source={{uri: theRobot.img, with: 640, height: 480}} />
+    <TouchableOpacity onPress={() => this.setState({robot: null})} style={{display:'flex', flexDirection:'row', alignItems:'center', alignSelf:'center', paddingTop:30}}>
+      <AntDesign name='back' size={30} color={'salmon'}/>
+      <Text style={{fontSize:18, marginLeft:15}}>Go Back</Text>
+    </TouchableOpacity>
+  </View>
+
+App.js: line57-60
+  "Wrap in scroll view so that all of modal is viewable"
+  <ScrollView>
+    {
+    theRobot &&
+    <View style={{ flex: 1, backgroundColor: '#fff', alignItems: 'stretch', justifyContent: 'flex-start', padding: 40, height:900}}>
+      <Text style={{fontSize: 36, paddingBottom: 5}}>{theRobot.name}</Text>
+      <Image source={{uri: theRobot.img, with: 640, height: 480}} />
+      <TouchableOpacity onPress={() => this.setState({robot: null})} style={{display:'flex', flexDirection:'row', alignItems:'center', alignSelf:'center', paddingTop:30}}>
+        <AntDesign name='back' size={30} color={'salmon'}/>
+        <Text style={{fontSize:18, marginLeft:15}}>Go Back</Text>
+      </TouchableOpacity>
+    </View>
+    }
+  </ScrollView>
+
+App.js: line59
+  "Add height style to hide background from showing on iOS"
+  <View style={{ flex: 1, backgroundColor: '#fff', alignItems: 'stretch', justifyContent: 'flex-start', padding: 40, height:900}}>
+
+App.js: line61-69
+  "reformat, add indentations to make code easier to read"
+  </Modal>
+  <View style={{ flexDirection: 'column'}}>
+    <View style={{ flexGrow: 0, flexShrink: 0, height: 24, backgroundColor: '#a85'}}></View>
+    <ScrollView style={{flexGrow: 1}}>
+      <View style={{ flex: 1, backgroundColor: '#fff', alignItems: 'stretch', justifyContent: 'flex-start'}}>
+        {robots}
+      </View>
+    </ScrollView>
+  </View>
+</View>
+
+App.js: line62
+  "change line to include ternary operator, which will use different styling for different OS"
+  "this is because this block is cut off on iOS"
+  <View style={Platform.OS == 'android' ? { flexGrow: 0, flexShrink: 0, height: 24, backgroundColor: '#a85'} : { flexGrow: 0, flexShrink: 0, height: 50, backgroundColor: '#a85'}}></View>
+
+App.js: line62
+  "Make more legible"
+  <View
+    style={Platform.OS == 'android' ? { flexGrow: 0, flexShrink: 0, height: 24, backgroundColor: '#a85'}
+    : { flexGrow: 0, flexShrink: 0, height: 50, backgroundColor: '#a85'}}>
+  </View>
+
+App.js: line64
+  "add paddingBottom to ensure last element in list is shown"
+  <View style={{ flex: 1, backgroundColor: '#fff', alignItems: 'stretch', justifyContent: 'flex-start', paddingBottom:120}}>
+
+App.js: line 73
+  "remove unnecessary 'return' statement"
+
+App.js: file
+  "Clean up by using StyleSheet instead of inlineStyles"
+  import StyleSheet (top)
