@@ -1,5 +1,6 @@
 import React from 'react'
 import { View, Text, StyleSheet, TouchableOpacity } from 'react-native'
+import Markdown from 'react-native-markdown-display';
 
 const PostScreen = ({ navigation }) => {
   const title = navigation.getParam('title')
@@ -8,7 +9,7 @@ const PostScreen = ({ navigation }) => {
   return (
     <>
       <Text>{title}</Text>
-      <Text>{body}</Text>
+      <Markdown>{body}</Markdown>
     </>
   )
 }
