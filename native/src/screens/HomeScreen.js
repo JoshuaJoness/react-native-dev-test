@@ -4,7 +4,7 @@ import axios from 'axios'
 
 const regex = /.*?(\.)(?=\s[A-Z])/;
 
-const HomeScreen = () => {
+const HomeScreen = ({ navigation }) => {
   const [posts, setPosts] = useState([])
   const [filteredPosts, setFilteredPosts] = useState([])
   const [filtered, setFiltered] = useState(false)
@@ -34,7 +34,9 @@ const HomeScreen = () => {
         keyExtractor={(post) => post.title}
         renderItem={({item}) => {
           return (
-            <TouchableOpacity style={styles.post}>
+            <TouchableOpacity
+              style={styles.post}
+              onPress={() => navigation.navigate('Post', { title:item.title, body:item.body })} >
               <View>
                 <Text>{item.title}</Text>
                 <Text>{regex.exec(item.body)}</Text>
