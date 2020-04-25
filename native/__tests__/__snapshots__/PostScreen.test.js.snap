@@ -1,0 +1,30 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<RCTScrollView
+  showsVerticalScrollIndicator={false}
+  style={
+    Object {
+      "flex": 1,
+      "marginBottom": 40,
+      "marginHorizontal": 20,
+    }
+  }
+>
+  <View>
+    <Text
+      style={
+        Object {
+          "alignSelf": "center",
+          "fontSize": 40,
+          "fontWeight": "bold",
+          "marginVertical": 15,
+        }
+      }
+    />
+    <View
+      style={Object {}}
+    />
+  </View>
+</RCTScrollView>
+`;

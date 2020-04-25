@@ -13,7 +13,7 @@ const HomeScreen = ({ navigation }) => {
   useEffect(() => {
     // Here you must enter your local IP address
     axios.get('http://192.168.2.241:4000/posts').then(res => {
-      console.log(res.data);
+
       sortedDates = res.data.sort((a,b) => (a.publishedAt > b.publishedAt) ? -1 : ((a.publishedAt < b.publishedAt) ? 1 : 0) )
       setPosts(sortedDates)
     }).catch(err => {
@@ -23,8 +23,11 @@ const HomeScreen = ({ navigation }) => {
 
   const filterPostsByAuthor = (name) => {
     let filteredPosts = posts.filter(post => post.author.name == name)
-    setFilteredPosts(filteredPosts)
-    setFiltered(true)
+    act(() => {
+      setFilteredPosts(filteredPosts)
+      setFiltered(true)
+    })
+
   }
 
   return(
@@ -67,8 +70,7 @@ const styles = StyleSheet.create({
     borderColor: '#d3d3d3',
     alignItems: 'flex-start',
     paddingVertical: 15,
-    paddingLeft: 20,
-    alignContent: 'space-around',
+    paddingHorizontal: 20
   },
   title: {
     fontSize: 22,
