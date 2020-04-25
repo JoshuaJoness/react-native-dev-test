@@ -25,8 +25,7 @@ const styles = StyleSheet.create({
     fontWeight: 'bold',
     alignSelf: 'center',
     marginVertical: 15
-  },
-  body: {}
+  }
 })
 
 export default PostScreen

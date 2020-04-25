@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react'
 import { View, Text, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native'
 import axios from 'axios'
+import moment from 'moment'
 
 const regex = /.*?(\.)(?=\s[A-Z])/;
 
@@ -28,35 +29,56 @@ const HomeScreen = ({ navigation }) => {
 
   return(
     <View>
-      <Text>Home Screen</Text>
       <FlatList
         data={filtered ? filteredPosts : posts}
         keyExtractor={(post) => post.title}
         renderItem={({item}) => {
           return (
             <TouchableOpacity
-              style={styles.post}
               onPress={() => navigation.navigate('Post', { title:item.title, body:item.body })} >
-              <View>
-                <Text>{item.title}</Text>
-                <Text>{regex.exec(item.body)}</Text>
-                <Button title={item.author.name} onPress={() => filterPostsByAuthor(item.author.name)}/>
-                <Text>{item.publishedAt}</Text>
+              <View style={styles.postContainer}>
+                <Text style={styles.title}>{item.title}</Text>
+                <Text style={styles.summary}>{regex.exec(item.body)}</Text>
+                <View style={styles.authorContainer}>
+                  <Text style={{fontWeight:'bold'}}>Author: </Text>
+                  <Button title={item.author.name} onPress={() => filterPostsByAuthor(item.author.name)}/>
+                </View>
+
+                <Text><Text style={{fontWeight:'bold'}}>Published:</Text> {moment(item.publishedAt).format('LLLL')}</Text>
               </View>
             </TouchableOpacity>
           )
          }}
        />
-      {filtered ? <Button title='Show all posts' onPress={() => setFiltered(false)} /> : null}
+      {filtered ? <Button title='Show all posts' style={styles.button} onPress={() => setFiltered(false)} /> : null}
     </View>
   )
 }
 
 const styles = StyleSheet.create({
-  post: {
+  postContainer: {
     borderWidth: 2,
-    borderColor: 'black'
-}
+    borderColor: '#d3d3d3',
+    alignItems: 'flex-start',
+    paddingVertical: 15,
+    paddingLeft: 20,
+    alignContent: 'space-around',
+  },
+  title: {
+    fontSize: 22,
+    fontWeight: 'bold',
+    marginVertical: 10,
+  },
+  authorContainer: {
+    flexDirection: 'row',
+    alignItems: 'center'
+  },
+  summary: {
+    fontSize: 18
+  },
+  button: {
+    marginTop: 50
+  }
 })
 
 export default HomeScreen
