@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from 'react'
-import { View, Text, StyleSheet, FlatList, TouchableOpacity } from 'react-native'
+import { View, Text, StyleSheet, FlatList, TouchableOpacity, Button } from 'react-native'
 import axios from 'axios'
 
 const regex = /.*?(\.)(?=\s[A-Z])/;
 
 const HomeScreen = () => {
   const [posts, setPosts] = useState([])
-
+  const [filteredPosts, setFilteredPosts] = useState([])
+  const [filtered, setFiltered] = useState(false)
 
   useEffect(() => {
     // Here you must enter your local IP address
@@ -19,11 +20,17 @@ const HomeScreen = () => {
       })
    }, [])
 
+  const filterPostsByAuthor = (name) => {
+    let filteredPosts = posts.filter(post => post.author.name == name)
+    setFilteredPosts(filteredPosts)
+    setFiltered(true)
+  }
+
   return(
     <View>
       <Text>Home Screen</Text>
       <FlatList
-        data={posts}
+        data={filtered ? filteredPosts : posts}
         keyExtractor={(post) => post.title}
         renderItem={({item}) => {
           return (
@@ -31,13 +38,14 @@ const HomeScreen = () => {
               <View>
                 <Text>{item.title}</Text>
                 <Text>{regex.exec(item.body)}</Text>
-                <Text>{item.author.name}</Text>
+                <Button title={item.author.name} onPress={() => filterPostsByAuthor(item.author.name)}/>
                 <Text>{item.publishedAt}</Text>
               </View>
             </TouchableOpacity>
           )
          }}
        />
+      {filtered ? <Button title='Show all posts' onPress={() => setFiltered(false)} /> : null}
     </View>
   )
 }
