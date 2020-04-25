@@ -28,7 +28,7 @@ const HomeScreen = ({ navigation }) => {
   }
 
   return(
-    <View>
+    <View style={filtered && Platform.OS === 'android' ? {marginBottom:70} : {marginBottom:0}}>
       <FlatList
         data={filtered ? filteredPosts : posts}
         keyExtractor={(post) => post.title}
@@ -41,10 +41,16 @@ const HomeScreen = ({ navigation }) => {
                 <Text style={styles.summary}>{regex.exec(item.body)}</Text>
                 <View style={styles.authorContainer}>
                   <Text style={{fontWeight:'bold'}}>Author: </Text>
-                  <Button title={item.author.name} onPress={() => filterPostsByAuthor(item.author.name)}/>
+                  {
+                    Platform.OS === 'android' ?
+                    <TouchableOpacity onPress={() => filterPostsByAuthor(item.author.name)}>
+                      <Text style={styles.androidAuthorButton}>{item.author.name}</Text>
+                    </TouchableOpacity>
+                    :
+                    <Button title={item.author.name} onPress={() => filterPostsByAuthor(item.author.name)}/>
+                  }
                 </View>
-
-                <Text><Text style={{fontWeight:'bold'}}>Published:</Text> {moment(item.publishedAt).format('LLLL')}</Text>
+                <Text><Text style={{fontWeight:'bold'}}>Published:</Text>{moment(item.publishedAt).format('LLLL')}</Text>
               </View>
             </TouchableOpacity>
           )
@@ -78,6 +84,9 @@ const styles = StyleSheet.create({
   },
   button: {
     marginTop: 50
+  },
+  androidAuthorButton: {
+    color:'blue'
   }
 })
 
